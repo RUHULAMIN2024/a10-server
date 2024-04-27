@@ -25,7 +25,6 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
 
         const touristsSpot = client.db("touristsDB").collection("tourists");
 
@@ -40,11 +39,21 @@ async function run() {
             res.send(result)
         })
 
-        app.post('/tourist-spots', async (req, res) => {
+        app.get('/single-spot/:id', async(req, res)=>{
+            const id=req.params.id;
+            console.log(id)
+            const query={_id: new ObjectId(id)};
+            const result = await touristsSpot.findOne(query);
+            res.send(result)
+        })
+
+        app.post('/tourist-spots', async(req, res) => {
             const newSpot = req.body;
             const result = await touristsSpot.insertOne(newSpot);
             res.send(result)
         })
+
+        
 
         app.delete('/tourist-spots/:id', async(req, res)=>{
             id=req.params.id;
