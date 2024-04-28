@@ -27,6 +27,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
 
         const touristsSpot = client.db("touristsDB").collection("tourists");
+        const countryName = client.db("touristsDB").collection("countryName");
 
         app.get('/tourist-spots', async (req, res) => {
             const cursor = touristsSpot.find();
@@ -34,8 +35,18 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/country-name', async (req, res) => {
+            const cursor = countryName.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         app.get('/tourist-spots/:email', async (req, res) => {
             const result = await touristsSpot.find({ userEmail: req.params.email }).toArray();
+            res.send(result)
+        })
+        app.get('/countryBasespots/:country', async (req, res) => {
+            const result = await touristsSpot.find({ country_Name: req.params.country }).toArray();
             res.send(result)
         })
 
