@@ -52,7 +52,6 @@ async function run() {
 
         app.get('/single-spot/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { _id: new ObjectId(id) };
             const result = await touristsSpot.findOne(query);
             res.send(result)
@@ -105,9 +104,7 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res) => {
-    res.send('Server is runing')
-})
+app.get('/', (req, res) => {res.send('Server is runing')})
 
 app.listen(port);
 
